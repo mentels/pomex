@@ -1,0 +1,2 @@
+# pomex
+Phoenix Pomodoro Server
