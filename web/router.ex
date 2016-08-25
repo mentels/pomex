@@ -1,5 +1,5 @@
-defmodule HelloWorld.Router do
-  use HelloWorld.Web, :router
+defmodule Pomex.Router do
+  use Pomex.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,14 +13,23 @@ defmodule HelloWorld.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", HelloWorld do
+  scope "/", Pomex do
     pipe_through :browser # Use the default browser stack
 
+    resources "/users", UserController do
+      resources "/pomodoros", PomodorController
+    end
+    
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", HelloWorld do
-  #   pipe_through :api
-  # end
+  scope "/api", HelloWorld do
+    pipe_through :api
+
+    resources "/users", UserController, only: [:show, :create] do
+      resources "/pomodoros", PomodorController, only: [:create,
+                                                        :update]
+    end
+  end
+  
 end
