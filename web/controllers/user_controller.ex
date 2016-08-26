@@ -64,17 +64,20 @@ defmodule Pomex.UserController do
     |> redirect(to: user_path(conn, :index))
   end
 
-  def add_pomodoro(conn, %{"user_id" => user_id} = params) do
+  def add_pomodoro(conn,
+                   %{"user_id" => user_id} = params) do
     id = case Pomex.Repo.all(from u in User,
                              where: u.user_id == ^user_id,
                              select: u) do
-      [%User{:id => id}] -> id
-      [] ->
+           [%User{:id => id}] -> id
+           [] ->
              {:ok, %User{:id => id}} = Pomex.Repo.insert(%User{:user_id => user_id})
              id
-    end
-    changeset = Pomodoro.changeset(%Pomodoro{}, Map.put(params, "user_id", id))
-    
+         end
+    dt = Ecto.DateTime.autogenerate
+    p0 = Map.put(params, "start_time", dt)
+    changeset = Pomodoro.changeset(%Pomodoro{}, Map.put(p0, "user_id", id))
+
     if changeset.valid? do
       {:ok, %Pomodoro{id: pid}} = Repo.insert(changeset)
       json conn, %{"pid" => pid}
