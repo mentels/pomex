@@ -40,31 +40,17 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 You can display the routes with `mix phoenix.routes`:
 
 ```bash
-# The "landing page" do display the UI
-             page_path  GET     /                                  Pomex.PageController :index
-# Testing API
-             user_path  GET     /users                             Pomex.UserController :index
-             user_path  GET     /users/:id/edit                    Pomex.UserController :edit
-             user_path  GET     /users/new                         Pomex.UserController :new
-             user_path  GET     /users/:id                         Pomex.UserController :show
-             user_path  POST    /users                             Pomex.UserController :create
-             user_path  PATCH   /users/:id                         Pomex.UserController :update
-                        PUT     /users/:id                         Pomex.UserController :update
-             user_path  DELETE  /users/:id                         Pomex.UserController :delete
-    user_pomodoro_path  GET     /users/:user_id/pomodors           Pomex.PomodoroController :index
-    user_pomodoro_path  GET     /users/:user_id/pomodors/:id/edit  Pomex.PomodoroController :edit
-    user_pomodoro_path  GET     /users/:user_id/pomodors/new       Pomex.PomodoroController :new
-    user_pomodoro_path  GET     /users/:user_id/pomodors/:id       Pomex.PomodoroController :show
-    user_pomodoro_path  POST    /users/:user_id/pomodors           Pomex.PomodoroController :create
-    user_pomodoro_path  PATCH   /users/:user_id/pomodors/:id       Pomex.PomodoroController :update
-                        PUT     /users/:user_id/pomodors/:id       Pomex.PomodoroController :update
-    user_pomodoro_path  DELETE  /users/:user_id/pomodors/:id       Pomex.PomodoroController :delete
-# The API to be used by devices
-         api_user_path  GET     /api/users/:id                     Pomex.Api.UserController :show
-         api_user_path  POST    /api/users                         Pomex.Api.UserController :create
-api_user_pomodoro_path  POST    /api/users/:user_id/pomodoros      Pomex.Api.PomodoroController :create
-api_user_pomodoro_path  PATCH   /api/users/:user_id/pomodoros/:id  Pomex.Api.PomodoroController :update
-                        PUT     /api/users/:user_id/pomodoros/:id  Pomex.Api.PomodoroController :update
+  user_path  GET     /users                          Pomex.UserController :index
+     user_path  GET     /users/:id/edit                 Pomex.UserController :edit
+     user_path  GET     /users/new                      Pomex.UserController :new
+     user_path  GET     /users/:id                      Pomex.UserController :show
+     user_path  POST    /users                          Pomex.UserController :create
+     user_path  PATCH   /users/:id                      Pomex.UserController :update
+                PUT     /users/:id                      Pomex.UserController :update
+     user_path  DELETE  /users/:id                      Pomex.UserController :delete
+user_user_path  POST    /users/:user_id/pomodoros       Pomex.UserController :add_pomodoro
+user_user_path  PATCH   /users/:user_id/pomodoros/:pid  Pomex.UserController :update_pomodoro
+     page_path  GET     /                               Pomex.PageController :index
 ```
 
 ## Learn more
