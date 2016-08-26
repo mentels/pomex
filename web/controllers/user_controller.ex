@@ -64,8 +64,7 @@ defmodule Pomex.UserController do
     |> redirect(to: user_path(conn, :index))
   end
 
-  def add_pomodoro(conn,
-                   %{"user_id" => user_id} = params) do
+  def add_pomodoro(conn, %{"user_id" => user_id} = params) do
     id = case Pomex.Repo.all(from u in User,
                              where: u.user_id == ^user_id,
                              select: u) do
@@ -87,5 +86,18 @@ defmodule Pomex.UserController do
       json conn, %{"error" => -1}
     end
     
+  end
+
+  def update_pomodoro(conn, %{"pid" => pid,
+                              "duration" => duration} = _params) do
+    p0 = Pomex.Repo.get(Pomodoro, pid)
+    update_time(p0, duration)
+    json conn, %{"okay" => 0}
+  end
+
+  def update_time(pomodoro, time) do
+    changeset = Pomodoro.changeset(pomodoro,
+                                   %{"elapsed_time" => time})
+    Repo.update(changeset)
   end
 end
