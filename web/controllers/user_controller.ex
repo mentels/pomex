@@ -28,7 +28,7 @@ defmodule Pomex.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = User |> Repo.get!(id) |> Repo.preload([:pomodoros])
     render(conn, "show.html", user: user)
   end
 
@@ -71,7 +71,9 @@ defmodule Pomex.UserController do
                              select: u) do
            [%User{:id => id}] -> id
            [] ->
-             {:ok, %User{:id => id}} = Pomex.Repo.insert(%User{:user_id => user_id})
+             ucs = User.changeset(%User{:user_id => user_id,
+                                        :name => user_id})
+             {:ok, %User{:id => id}} = Pomex.Repo.insert(ucs)
              id
          end
     dt = Ecto.DateTime.autogenerate

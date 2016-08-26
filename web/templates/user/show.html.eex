@@ -7,7 +7,27 @@
     <%= @user.name %>
   </li>
 
+  <h3> Pomodoros: </h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for pomodoro <- @user.pomodoros do %>
+          <tr>
+            <td><b>Started at:</b> <%= pomodoro.start_time %></td>
+            <td><b>DeviceId/TriggerId:</b> <%= pomodoro.device_id %>/<%= pomodoro.trigger_id %></td>
+            <td><b>Elapsed_time:</b> <%= pomodoro.elapsed_time %></td>
+          </tr>
+          <% end %>
+    </tbody>
+  </table>
+
 </ul>
 
 <%= link "Edit", to: user_path(@conn, :edit, @user) %>
+
 <%= link "Back", to: user_path(@conn, :index) %>
