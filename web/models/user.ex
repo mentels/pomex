@@ -3,6 +3,7 @@ defmodule Pomex.User do
 
   schema "users" do
     field :name, :string
+    field :user_id, :string
 
     has_many :pomodoros, Pomex.Pomodoro
     timestamps()

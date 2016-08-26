@@ -64,12 +64,16 @@ defmodule Pomex.UserController do
     |> redirect(to: user_path(conn, :index))
   end
 
-  def add_pomodoro(conn, %{"user_id" => id} = params) do
-    if !Pomex.Repo.get(User, id) do
-      cs = Pomex.User.changeset(%User{}, %{:user_id => id})
-      {:ok, _} = Pomex.Repo.insert(cs)
+  def add_pomodoro(conn, %{"user_id" => user_id} = params) do
+    id = case Pomex.Repo.all(from u in User,
+                             where: u.user_id == ^user_id,
+                             select: u) do
+      [%User{:id => id}] -> id
+      [] ->
+             {:ok, %User{:id => id}} = Pomex.Repo.insert(%User{:user_id => user_id})
+             id
     end
-    changeset = Pomodoro.changeset(%Pomodoro{}, params)
+    changeset = Pomodoro.changeset(%Pomodoro{}, Map.put(params, "user_id", id))
     
     if changeset.valid? do
       {:ok, %Pomodoro{id: pid}} = Repo.insert(changeset)
